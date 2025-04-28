@@ -103,12 +103,12 @@ const Navbar: React.FC = () => {
         </div>
 
         <PrimaryButton
-          className="sm:hidden text-gray-600"
+          className="sm:hidden"
           onClick={toggleMenu}
           ariaLabel={isMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMenuOpen}
         >
-          {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+          {isMenuOpen ? <FaTimes size={24} color="black"/> : <FaBars size={24} color="black"/>}
         </PrimaryButton>
 
         <DropdownMenu
