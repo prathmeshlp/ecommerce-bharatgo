@@ -53,7 +53,6 @@ const Navbar: React.FC = () => {
                 key={cat}
                 onClick={() => dispatch(setCategory(cat))}
                 className="px-2 py-1 text-gray-600 text-sm sm:text-base cursor-pointer hover:bg-gray-200 rounded transition-colors"
-             
               >
                 {cat}
               </span>
@@ -77,7 +76,7 @@ const Navbar: React.FC = () => {
           </Card>
           <Link
             to="/orders"
-           className="px-2 py-1 text-gray-600 text-sm sm:text-base cursor-pointer hover:bg-gray-200 rounded transition-colors"
+            className="px-2 py-1 text-gray-600 text-sm sm:text-base cursor-pointer hover:bg-gray-200 rounded transition-colors"
           >
             My Orders
           </Link>
@@ -94,14 +93,13 @@ const Navbar: React.FC = () => {
             >
               Logout
             </PrimaryButton>
-          ) : (
-            <Link
-              to="/"
-            className="px-2 py-1 text-gray-600 text-sm sm:text-base cursor-pointer hover:bg-gray-200 rounded transition-colors"
-            >
-              Login
-            </Link>
-          )}
+          ) : // <Link
+          //   to="/"
+          // className="px-2 py-1 text-gray-600 text-sm sm:text-base cursor-pointer hover:bg-gray-200 rounded transition-colors"
+          // >
+          //   Login
+          // </Link>
+          null}
         </div>
 
         <PrimaryButton

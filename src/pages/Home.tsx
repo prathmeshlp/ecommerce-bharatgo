@@ -105,7 +105,7 @@ const Home: React.FC = () => {
                     color="white"
                   />
                 ) : (
-                  <IoMdAdd size={24} className="rounded-full" color="white"/>
+                  <IoMdAdd size={24} className="rounded-full" color="white" />
                 )}
               </PrimaryButton>
             </Card>
