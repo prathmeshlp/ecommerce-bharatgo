@@ -5,7 +5,18 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      width:{
+        containerLarge: "100%",
+        containerSmall: "1024px",
+      },
+      height:{
+        navBarHeight: "5rem",
+      },
+      margin: {
+        navBarMargin: "5rem",
+      },
+    },
   },
   plugins: [],
 }

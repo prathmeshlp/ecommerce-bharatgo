@@ -5,12 +5,17 @@ import {
   toggleSidebar,
   updateCartQuantity,
   removeFromCart,
-  clearCart,
   createOrder,
+  clearCart,
 } from "../store/productSlice";
-import { FaTimes } from "react-icons/fa";
+import { IoCloseSharp } from "react-icons/io5";
+
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import PrimaryButton from "./PrimaryButton";
+import SectionHeading from "./SectionHeading";
+import Input from "./Input";
+import Card from "./Card";
 
 const Sidebar: React.FC = () => {
   const dispatch = useDispatch();
@@ -19,141 +24,135 @@ const Sidebar: React.FC = () => {
     (state: RootState) => state.products
   );
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  console.log(isSidebarOpen);
 
   return (
-    <motion.div
-      className={`w-96 bg-white shadow-md p-4 min-h-full fixed top-[4.563rem] overflow-y-scroll ${
-        isSidebarOpen ? "right-0" : "-right-96"
+    <Card
+      className={`w-full sm:w-96 bg-white shadow-lg p-4 sm:p-6 fixed top-16 right-0 h-[calc(100vh-4rem)] overflow-y-auto transition-transform ${
+        isSidebarOpen ? "translate-x-0" : "translate-x-full"
       }`}
-      animate={{ x: isSidebarOpen ? 0 : 200 }}
-      transition={{ duration: 0.3 }}
+      animate={{ x: isSidebarOpen ? 0 : "100%" }}
+      
+      aria-hidden={!isSidebarOpen}
     >
-      <motion.button
-        className="absolute top-4 right-4 text-gray-600"
+      <PrimaryButton
+        className="absolute top-4 right-6  "
         onClick={() => dispatch(toggleSidebar(false))}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+        ariaLabel="Close sidebar"
+        
       >
-        <FaTimes size={20} />
-      </motion.button>
+        <IoCloseSharp size={24} color="black"/>
+      </PrimaryButton>
       {selectedProduct && !showCheckout ? (
-        <motion.div
-          initial={{ opacity: 0 }}
+        <Card
+         
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="flex flex-col items-center justify-center mt-10"
+        
+          className="flex flex-col items-center mt-8 sm:mt-10"
         >
-          <h1 className="text-xl font-extrabold">Details</h1>
+          <SectionHeading className="text-lg sm:text-xl font-extrabold text-gray-800">
+            Details
+          </SectionHeading>
           <img
             src={selectedProduct.images[0]}
             alt={selectedProduct.title}
-            className="w-56 h-full object-cover rounded-lg mt-10"
+            className="w-48 sm:w-56 h-48 sm:h-64 object-cover rounded-lg mt-6 sm:mt-10"
           />
-          <p className="font-medium text-2xl mb-2 mt-2">
+          <p className="font-medium text-xl sm:text-2xl text-gray-700 mt-2 mb-2">
             ${selectedProduct.price}
           </p>
           <div className="flex flex-col items-center p-4">
-            <h2 className="text-xl font-bold mb-4">{selectedProduct.title}</h2>
-            <p className="mb-4">{selectedProduct.description}</p>
+            <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">
+              {selectedProduct.title}
+            </h2>
+            <p className="text-sm sm:text-base text-gray-600 mb-4">
+              {selectedProduct.description}
+            </p>
           </div>
-          {/* <motion.button
-            onClick={() => dispatch(addToCart(selectedProduct))}
-            className="bg-blue-500 text-white px-4 py-2 rounded w-full flex items-center justify-center"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {cart.some((item) => item.id === selectedProduct.id) ? (
-              <FaCheck className="mr-2" />
-            ) : (
-              <FaPlus className="mr-2" />
-            )}
-            Add to Cart
-          </motion.button> */}
-        </motion.div>
+        </Card>
       ) : showCheckout ? (
-        <>
+        <motion.div
          
-          <h2 className="text-xl font-bold">Cart</h2>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-            className="cart w-full h-full flex flex-col items-center justify-center overflow-y-auto overflow-x-hidden"
-          >
-            {cart.length === 0 ? (
-              <p>Your cart is empty.</p>
-            ) : (
-              <>
-                <div className="flex flex-col items-start justify-center mt-10">
-                  {cart.map((item) => (
-                    <motion.div
-                      key={item.id}
-                      className="flex items-center justify-center mb-4 "
-                      initial={{ x: -50 }}
-                      animate={{ x: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <img
-                        src={item.images[0]}
-                        alt={item.title}
-                        className="w-16 h-16 object-cover mr-4"
-                      />
-                      <div className="flex-1">
-                        <p className="font-semibold text-balance">{item.title}</p>
-                        <p>${item.price}</p>
-                        <input
-                          type="number"
-                          min="1"
-                          value={item.quantity}
-                          onChange={(e) =>
-                            dispatch(
-                              updateCartQuantity({
-                                productId: item.id,
-                                quantity: parseInt(e.target.value),
-                              })
-                            )
-                          }
-                          className="w-16 text-center border rounded"
-                        />
-                        <motion.button
-                          onClick={() => dispatch(removeFromCart(item.id))}
-                          className="text-red-500 ml-4"
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
-                        >
-                          Remove
-                        </motion.button>
-                      </div>
-                    </motion.div>
-                  ))}
-                  <p className="text-lg font-bold">
-                    Total: ${total.toFixed(2)}
-                  </p>
-                </div>
-                <motion.button
-                  onClick={() => {
-                    alert("Checkout successful! Thank you for your purchase.");
-                    dispatch(createOrder());
-                    dispatch(toggleSidebar(false));
-                    dispatch(clearCart());
-                    navigate("/home");
-                  }}
-                  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded w-full"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+          animate={{ opacity: 1 }}
+         
+          className="flex flex-col h-full"
+        >
+          <h2 className="text-lg sm:text-xl font-bold text-gray-800">Cart</h2>
+          {cart.length === 0 ? (
+            <p className="text-gray-600 text-center mt-6">
+              Your cart is empty.
+            </p>
+          ) : (
+            <div className="flex flex-col mt-6 sm:mt-10">
+              {cart.map((item) => (
+                <Card
+                  key={item.id}
+                  className="flex items-center mb-4"
+                
+                  animate={{ x: 0 }}
+                 
                 >
-                  Complete Purchase
-                </motion.button>
-              </>
-            )}
-          </motion.div>
-        </>
+                  <img
+                    src={item.images[0]}
+                    alt={item.title}
+                    className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded mr-4"
+                  />
+                  <div className="flex-1">
+                    <p className="font-semibold text-sm sm:text-base text-gray-800 truncate">
+                      {item.title}
+                    </p>
+                    <p className="text-gray-600 text-sm">${item.price}</p>
+                    <Input
+                      type="number"
+                      min={1}
+                      value={item.quantity}
+                      onChange={(e) =>
+                        dispatch(
+                          updateCartQuantity({
+                            productId: item.id,
+                            quantity: parseInt(e.target.value) || 1,
+                          })
+                        )
+                      }
+                      className="w-16 p-1 text-center border rounded text-sm mt-1"
+                      ariaLabel={`Quantity for ${item.title}`}
+                    />
+                    <PrimaryButton
+                      onClick={() => dispatch(removeFromCart(item.id))}
+                      className="ml-4 rounded px-1"
+                      color="red"
+                      ariaLabel={`Remove ${item.title} from cart`}
+                    >
+                      Remove
+                    </PrimaryButton>
+                  </div>
+                </Card>
+              ))}
+              <p className="text-base sm:text-lg font-bold text-gray-800 mt-4">
+                Total: ${total.toFixed(2)}
+              </p>
+              <PrimaryButton
+                onClick={() => {
+                  alert("Checkout successful! Thank you for your purchase.");
+                  dispatch(createOrder());
+                  dispatch(toggleSidebar(false));
+                  dispatch(clearCart());
+                  navigate("/home");
+                }}
+                className="mt-6 bg-blue-500 text-white px-4 py-2 rounded w-full hover:bg-blue-600 transition-colors"
+                ariaLabel="Complete purchase"
+              >
+                Complete Purchase
+              </PrimaryButton>
+            </div>
+          )}
+        </motion.div>
       ) : (
-        <p>Select a product or add to cart to view details.</p>
+        <p className="text-gray-600 text-center mt-6">
+          Select a product or add to cart to view details.
+        </p>
       )}
-    </motion.div>
+    </Card>
   );
 };
 
-export default Sidebar;
+export default React.memo(Sidebar);
