@@ -25,7 +25,6 @@ const Sidebar: React.FC = () => {
     (state: RootState) => state.products
   );
 
-  console.log(isSidebarOpen, "isSidebarOpen");
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const handleIncrement = (productId: number, currentQuantity: number) => {
@@ -58,7 +57,7 @@ const Sidebar: React.FC = () => {
       {selectedProduct && !showCheckout ? (
         <Card
           animate={{ opacity: 1 }}
-          className="flex flex-col items-center justify-center p-4 border-2"
+          className="flex flex-col items-center justify-center p-4"
         >
           <SectionHeading className="text-lg sm:text-xl font-extrabold text-gray-800">
             Details
