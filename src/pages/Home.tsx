@@ -12,10 +12,11 @@ import { useAuth } from "../hooks/useAuth";
 import { IoMdAdd } from "react-icons/io";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import PuffLoader from "react-spinners/PuffLoader";
-import Input from "../components/Input";
-import SectionHeading from "../components/SectionHeading";
-import PrimaryButton from "../components/PrimaryButton";
-import Card from "../components/Card";
+import Input from "../components/basic/Input";
+import SectionHeading from "../components/basic/SectionHeading";
+import Button from "../components/basic/Button";
+import Card from "../components/basic/Card";
+import Image from "../components/basic/Image";
 
 const Home: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -40,10 +41,10 @@ const Home: React.FC = () => {
   if (!user) return null;
 
   return (
-    <div className="bg-white min-h-screen pt-20 pb-6 flex flex-col items-center">
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center mb-6">
-          <SectionHeading className="text-lg font-semibold text-gray-800 mb-4">
+    <main className="min-h-screen bg-white pt-20 pb-8 flex flex-col items-center">
+      <section className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
+        <div className="flex flex-col items-center mb-8">
+          <SectionHeading className="text-heading font-semibold text-gray-800">
             Home
           </SectionHeading>
           <div className="w-full max-w-md">
@@ -52,67 +53,65 @@ const Home: React.FC = () => {
               placeholder="Search products..."
               value={searchTerm}
               onChange={(e) => dispatch(setSearchTerm(e.target.value))}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              className="input-base focus:ring-blue-500"
               ariaLabel="Search products"
             />
           </div>
         </div>
         {status === "loading" && (
-          <div className="flex justify-center">
+          <div className="flex justify-center py-8">
             <PuffLoader color="#2563eb" />
           </div>
         )}
         {status === "failed" && (
-          <p className="text-red-500 text-center">Error loading products</p>
+          <p className="text-red-500 text-responsive text-center py-8">
+            Error loading products
+          </p>
         )}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 place-items-center">
           {filteredProducts.map((product) => (
             <Card
               key={product.id}
-              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow relative overflow-hidden"
+              className="relative w-64 h-60 rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden"
             >
-              <img
+              <Image
                 src={product.images[0]}
                 alt={product.title}
-                className="w-full h-48 sm:h-64 sm:object-cover object-contain rounded-3xl sm:rounded-lg cursor-pointer"
+                className="w-full h-48 object-cover  rounded-t-lg cursor-pointer hover:opacity-90 transition-opacity"
                 onClick={() => dispatch(setSelectedProduct(product))}
-                aria-label={`View details for ${product.title}`}
+                ariaLabel={`View details for ${product.title}`}
               />
-              <h3 className="absolute bottom-12 left-2 bg-white/70 rounded-lg text-black text-xs font-semibold px-2 py-1">
+              <span className="absolute bottom-16 left-2 bg-white/60 rounded-md text-xs font-semibold text-gray-800 px-2 py-1">
                 {product.category.name}
-              </h3>
-              <div className="flex justify-between items-center p-3">
-                <p className="text-xs sm:text-sm text-gray-500 truncate">
+              </span>
+              <div className="flex justify-between items-center p-4">
+                <p className="text-responsive text-gray-600 truncate">
                   {product.title}
                 </p>
-                <p className="text-sm font-medium text-gray-700">
+                <p className="text-responsive font-medium text-gray-700">
                   ${product.price}
                 </p>
               </div>
-              <PrimaryButton
+              <Button
                 onClick={() => dispatch(addToCart(product))}
                 ariaLabel={
                   cart.some((item) => item.id === product.id)
                     ? "Added to cart"
                     : "Add to cart"
                 }
-                className="absolute top-2 right-2 bg-black text-white w-8 h-8 rounded-full flex items-center justify-center shadow-sm hover:scale-50 transition-colors"
+                className="absolute top-2 right-2 w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center shadow-sm hover:bg-gray-900 transition-colors"
               >
                 {cart.some((item) => item.id === product.id) ? (
-                  <IoCheckmarkCircleSharp
-                    size={24}
-                    className="rounded-full"
-                    color="white"
-                  />
+                  <IoCheckmarkCircleSharp size={20} />
                 ) : (
-                  <IoMdAdd size={24} className="rounded-full" color="white" />
+                  <IoMdAdd size={20} />
                 )}
-              </PrimaryButton>
+              </Button>
             </Card>
           ))}
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

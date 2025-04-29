@@ -4,10 +4,10 @@ import { useDispatch } from "react-redux";
 import { toggleCheckout } from "../store/productSlice";
 import { FaShoppingCart } from "react-icons/fa";
 import { AnimatePresence } from "framer-motion";
-import Card from "./Card";
-import PrimaryButton from "./PrimaryButton";
+import Card from "./basic/Card";
+import Button from "./basic/Button";
 
-// DropdownMenu component for small screens
+
 const DropdownMenu: React.FC<{
   isOpen: boolean;
   toggleMenu: () => void;
@@ -50,7 +50,7 @@ const DropdownMenu: React.FC<{
               My Account
             </Link>
             {user ? (
-              <PrimaryButton
+              <Button
                 onClick={() => {
                   handleLogout();
                   toggleMenu();
@@ -59,7 +59,7 @@ const DropdownMenu: React.FC<{
          
               >
                 Logout
-              </PrimaryButton>
+              </Button>
             ) : (
               <Link
                 to="/"

@@ -6,10 +6,9 @@ import { setCategory } from "../store/productSlice";
 import { useAuth } from "../hooks/useAuth";
 import { toggleCheckout } from "../store/productSlice";
 import { FaBars, FaShoppingCart, FaTimes } from "react-icons/fa";
-import { motion } from "framer-motion";
 import DropdownMenu from "./DropdownMenu";
-import PrimaryButton from "./PrimaryButton";
-import Card from "./Card";
+import Button from "./basic/Button";
+import Card from "./basic/Card";
 
 const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
@@ -33,12 +32,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <motion.nav
-      className="bg-white px-4 py-3 fixed top-0 left-0 w-containerLarge h-navBarHeight z-10"
-      initial={{ y: -50 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <nav className="bg-white px-4 py-3 fixed top-0 left-0 w-containerLarge h-navBarHeight z-10">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-4">
           <Link
@@ -87,29 +81,27 @@ const Navbar: React.FC = () => {
             My Account
           </Link>
           {user ? (
-            <PrimaryButton
+            <Button
               onClick={handleLogout}
               className="bg-red-600 text-white px-4 py-2 rounded text-sm hover:bg-red-700 transition-colors"
             >
               Logout
-            </PrimaryButton>
-          ) : // <Link
-          //   to="/"
-          // className="px-2 py-1 text-gray-600 text-sm sm:text-base cursor-pointer hover:bg-gray-200 rounded transition-colors"
-          // >
-          //   Login
-          // </Link>
-          null}
+            </Button>
+          ) : null}
         </div>
 
-        <PrimaryButton
+        <Button
           className="sm:hidden"
           onClick={toggleMenu}
           ariaLabel={isMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMenuOpen}
         >
-          {isMenuOpen ? <FaTimes size={24} color="black"/> : <FaBars size={24} color="black"/>}
-        </PrimaryButton>
+          {isMenuOpen ? (
+            <FaTimes size={24} color="black" />
+          ) : (
+            <FaBars size={24} color="black" />
+          )}
+        </Button>
 
         <DropdownMenu
           isOpen={isMenuOpen}
@@ -119,7 +111,7 @@ const Navbar: React.FC = () => {
           handleLogout={handleLogout}
         />
       </div>
-    </motion.nav>
+    </nav>
   );
 };
 

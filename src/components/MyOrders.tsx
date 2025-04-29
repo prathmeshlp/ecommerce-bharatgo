@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { useAuth } from "../hooks/useAuth";
-import SectionHeading from "./SectionHeading";
-import Card from "./Card";
+import SectionHeading from "./basic/SectionHeading";
+import Card from "./basic/Card";
+import Image from "./basic/Image";
 
 const MyOrders: React.FC = () => {
   const { user } = useAuth();
@@ -68,7 +69,7 @@ const MyOrders: React.FC = () => {
                       className="flex items-center py-3 border-t border-gray-100"
                       animate={{ x: 0 }}
                     >
-                      <img
+                      <Image
                         src={item.images[0]}
                         alt={item.title}
                         className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded mr-4"

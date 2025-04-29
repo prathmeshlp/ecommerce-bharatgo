@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import Input from "./Input";
-import PrimaryButton from "./PrimaryButton";
-import SectionHeading from "./SectionHeading";
-import Card from "./Card";
+import Input from "./basic/Input";
+import Button from "./basic/Button";
+import SectionHeading from "./basic/SectionHeading";
+import Card from "./basic/Card";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -71,13 +71,13 @@ const Login: React.FC = () => {
                 required
               />
             </div>
-            <PrimaryButton
+            <Button
               type="submit"
               className="w-full bg-blue-500 text-white px-4 py-3 rounded-lg hover:bg-blue-600 transition-colors"
               ariaLabel="Submit login"
             >
               Login
-            </PrimaryButton>
+            </Button>
           </form>
           <p className="mt-4 text-sm text-gray-600 text-center">
             Don't have an account?{" "}

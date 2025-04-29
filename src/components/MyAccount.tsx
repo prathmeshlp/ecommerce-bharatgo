@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../hooks/useAuth";
-import SectionHeading from "./SectionHeading";
-import Card from "./Card";
+import SectionHeading from "./basic/SectionHeading";
+import Card from "./basic/Card";
 
 const MyAccount: React.FC = () => {
   const { user } = useAuth();

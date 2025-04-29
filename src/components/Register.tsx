@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import SectionHeading from "./SectionHeading";
-import Input from "./Input";
-import PrimaryButton from "./PrimaryButton";
-import Card from "./Card";
+import SectionHeading from "./basic/SectionHeading";
+import Input from "./basic/Input";
+import Button from "./basic/Button";
+import Card from "./basic/Card";
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -73,13 +73,13 @@ const Register: React.FC = () => {
                 required
               />
             </div>
-            <PrimaryButton
+            <Button
               type="submit"
               className="w-full bg-green-500 text-white px-4 py-3 rounded-lg hover:bg-green-600 transition-colors"
               ariaLabel="Submit registration"
             >
               Register
-            </PrimaryButton>
+            </Button>
           </form>
           <p className="mt-4 text-sm text-gray-600 text-center">
             Already have an account?{" "}
