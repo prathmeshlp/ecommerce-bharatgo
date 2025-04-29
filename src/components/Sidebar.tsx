@@ -84,7 +84,7 @@ const Sidebar: React.FC = () => {
       ) : showCheckout ? (
         <motion.div
           animate={{ opacity: 1 }}
-          className="flex flex-col h-[calc(100vh-5rem)] p-4 relative border-2 overflow-y-scroll overflow-x-hidden"
+          className="flex flex-col h-[calc(100vh-5rem)] p-4 relative overflow-y-scroll overflow-x-hidden"
         >
           <h2 className="text-lg sm:text-xl font-bold text-gray-800 text-center">
             Cart
