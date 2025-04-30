@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { useAuth } from "../hooks/useAuth";
-import SectionHeading from "./basic/SectionHeading";
-import Card from "./basic/Card";
-import Image from "./basic/Image";
+import SectionHeading from "../components/basic/SectionHeading";
+import Card from "../components/basic/Card";
+import Image from "../components/basic/Image";
 
 const MyOrders: React.FC = () => {
   const { user } = useAuth();
@@ -19,7 +19,7 @@ const MyOrders: React.FC = () => {
     );
 
   return (
-    <Card className="min-h-screen bg-white pt-20 pb-6 flex flex-col items-center">
+    <Card className="w-full h-full bg-white pt-20 pb-6 flex flex-col items-center">
       <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <SectionHeading className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">
           My Orders

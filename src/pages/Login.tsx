@@ -1,29 +1,30 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import SectionHeading from "./basic/SectionHeading";
-import Input from "./basic/Input";
-import Button from "./basic/Button";
-import Card from "./basic/Card";
+import Input from "../components/basic/Input";
+import SectionHeading from "../components/basic/SectionHeading";
+import Card from "../components/basic/Card";
+import Button from "../components/basic/Button";
+import toast from "react-hot-toast";
 
-const Register: React.FC = () => {
+const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const { signup } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     try {
-      await signup(email, password);
-      alert("Registration successful! You can now log in.");
-      navigate("/");
+      await login(email, password);
+      toast.success("Login successfull!");
+      navigate("/home");
     } catch (error: unknown) {
       console.error("Login error:", error);
       if (error instanceof Error) {
-        setError(
+        toast.error(
           error.message || "Login failed. Please check your credentials."
         );
       } else {
@@ -33,19 +34,13 @@ const Register: React.FC = () => {
   };
 
   return (
-    <Card
-      className="min-h-screen bg-white pt-20 pb-6 flex flex-col items-center"
-      animate={{ opacity: 1, y: 0 }}
-    >
+    <Card className="bg-white pt-20 pb-6 flex flex-col items-center w-full h-full">
       <div className="container mx-auto max-w-md px-4 sm:px-6 lg:px-8">
         <SectionHeading className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 text-center">
-          Register
+          Login
         </SectionHeading>
-        <Card
-          className="bg-white rounded-lg shadow-md p-6 sm:p-8"
-          animate={{ scale: 1 }}
-        >
-          <form onSubmit={handleSubmit} aria-label="Registration form">
+        <Card className="bg-white rounded-lg shadow-md p-6 sm:p-8">
+          <form onSubmit={handleSubmit} aria-label="Login form">
             {error && (
               <p className="text-red-500 text-sm mb-4 text-center" role="alert">
                 {error}
@@ -57,7 +52,7 @@ const Register: React.FC = () => {
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
                 ariaLabel="Email address"
                 required
               />
@@ -68,26 +63,26 @@ const Register: React.FC = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
                 ariaLabel="Password"
                 required
               />
             </div>
             <Button
               type="submit"
-              className="w-full bg-green-500 text-white px-4 py-3 rounded-lg hover:bg-green-600 transition-colors"
-              ariaLabel="Submit registration"
+              className="w-full bg-blue-500 text-white px-4 py-3 rounded-lg hover:bg-blue-600 transition-colors"
+              ariaLabel="Submit login"
             >
-              Register
+              Login
             </Button>
           </form>
           <p className="mt-4 text-sm text-gray-600 text-center">
-            Already have an account?{" "}
+            Don't have an account?{" "}
             <Link
-              to="/"
+              to="/register"
               className="text-blue-500 hover:text-blue-600 transition-colors"
             >
-              Login
+              Register
             </Link>
           </p>
         </Card>
@@ -96,4 +91,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default React.memo(Register);
+export default React.memo(Login);

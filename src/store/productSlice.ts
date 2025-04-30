@@ -14,7 +14,7 @@ interface ProductState {
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
-console.log();
+
 
 const initialState: ProductState = {
   products: [],

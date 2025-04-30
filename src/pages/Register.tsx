@@ -1,31 +1,34 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import Input from "./basic/Input";
-import Button from "./basic/Button";
-import SectionHeading from "./basic/SectionHeading";
-import Card from "./basic/Card";
+import SectionHeading from "../components/basic/SectionHeading";
+import Input from "../components/basic/Input";
+import Button from "../components/basic/Button";
+import Card from "../components/basic/Card";
+import toast from "react-hot-toast";
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const { login } = useAuth();
+  const { signup } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     try {
-      await login(email, password);
-      navigate("/home");
+      await signup(email, password);
+      alert("Registration successfull! You can now log in.");
+      navigate("/");
     } catch (error: unknown) {
       console.error("Login error:", error);
       if (error instanceof Error) {
-        setError(
-          error.message || "Login failed. Please check your credentials."
+        toast.error(
+          error.message || "Registration failed. Please check your credentials."
         );
-      } else {
+      }
+       else {
         setError("An unexpected error occurred.");
       }
     }
@@ -33,18 +36,19 @@ const Login: React.FC = () => {
 
   return (
     <Card
-      className="min-h-screen bg-white pt-20 pb-6 flex flex-col items-center"
+      className="w-full h-full bg-white pt-20 pb-6 flex flex-col items-center"
+      animate={{ opacity: 1, y: 0 }}
     >
       <div className="container mx-auto max-w-md px-4 sm:px-6 lg:px-8">
         <SectionHeading className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 text-center">
-          Login
+          Register
         </SectionHeading>
         <Card
           className="bg-white rounded-lg shadow-md p-6 sm:p-8"
-         
+          animate={{ scale: 1 }}
         >
-          <form onSubmit={handleSubmit} aria-label="Login form">
-            {error && (
+          <form onSubmit={handleSubmit} aria-label="Registration form">
+            {error && ( 
               <p className="text-red-500 text-sm mb-4 text-center" role="alert">
                 {error}
               </p>
@@ -55,7 +59,7 @@ const Login: React.FC = () => {
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
                 ariaLabel="Email address"
                 required
               />
@@ -66,26 +70,26 @@ const Login: React.FC = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
                 ariaLabel="Password"
                 required
               />
             </div>
             <Button
               type="submit"
-              className="w-full bg-blue-500 text-white px-4 py-3 rounded-lg hover:bg-blue-600 transition-colors"
-              ariaLabel="Submit login"
+              className="w-full bg-green-500 text-white px-4 py-3 rounded-lg hover:bg-green-600 transition-colors"
+              ariaLabel="Submit registration"
             >
-              Login
+              Register
             </Button>
           </form>
           <p className="mt-4 text-sm text-gray-600 text-center">
-            Don't have an account?{" "}
+            Already have an account?{" "}
             <Link
-              to="/register"
+              to="/"
               className="text-blue-500 hover:text-blue-600 transition-colors"
             >
-              Register
+              Login
             </Link>
           </p>
         </Card>
@@ -94,4 +98,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default React.memo(Login);
+export default React.memo(Register);

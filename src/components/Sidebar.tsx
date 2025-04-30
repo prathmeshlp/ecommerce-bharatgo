@@ -17,6 +17,7 @@ import SectionHeading from "./basic/SectionHeading";
 import Input from "./basic/Input";
 import Card from "./basic/Card";
 import Image from "./basic/Image";
+import toast from "react-hot-toast";
 
 const Sidebar: React.FC = () => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <Card
-      className={`sm:w-96 w-full p-2 bg-white shadow-lg fixed top-20 right-0 h-[calc(100vh-5rem)] overflow-y-auto overflow-x-hidden transition-transform ${
+      className={`sm:w-96 w-full p-2 bg-white fixed top-20 right-0 h-[calc(100vh-5rem)] overflow-y-auto overflow-x-hidden transition-transform ${
         isSidebarOpen ? "translate-x-0" : "translate-x-full"
       }`}
       animate={{ x: isSidebarOpen ? 0 : "100%" }}
@@ -164,7 +165,7 @@ const Sidebar: React.FC = () => {
                 </p>
                 <Button
                   onClick={() => {
-                    alert("Checkout successful! Thank you for your purchase.");
+                    toast.success("Checkout successful! Thank you for your purchase.");
                     dispatch(createOrder());
                     dispatch(toggleSidebar(false));
                     dispatch(clearCart());
